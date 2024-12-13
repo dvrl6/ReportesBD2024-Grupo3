@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 9.0.0.final using JasperReports Library version 6.10.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Subreporte1CatalogoFloristeria" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e181c4e-8407-45aa-9bff-916dadd800e6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PRUEBA_CATALOGO_PROD_1"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ReportesFlores2024/Subreporte1CatalogoFloristeria_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ReportesFlores2024/Subreporte1CatalogoFloristeria"/>
+	<parameter name="nombre_floristeria" class="java.lang.String"/>
+	<parameter name="nombre_flor" class="java.lang.String" isForPrompting="false"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    f.nombre_floristeria,
+    f.pagweb_floristeria,
+    f.telefono_floristeria,
+    f.email_floristeria,
+    p.nombre_pais, 
+    f.url_imagen,
+    fc.nombre_comun AS nombre_flor,
+    ROUND(AVG(d.promedio), 2) AS valoracion_promedio
+FROM 
+    catalogos_floristerias c
+JOIN 
+    flores_corte fc ON c.id_flor_corte = fc.id_flor_corte
+LEFT JOIN 
+    det_facturas_floristerias d ON c.id_floristeria = d.id_floristeria AND c.id_catalogo = d.id_catalogo
+JOIN 
+    floristerias f ON c.id_floristeria = f.id_floristeria
+JOIN 
+    paises p ON f.id_pais = p.id_pais 
+WHERE 
+    f.id_floristeria = (
+        SELECT id_floristeria 
+        FROM floristerias 
+        WHERE nombre_floristeria = $P{nombre_floristeria} 
+    )
+GROUP BY 
+    f.nombre_floristeria, 
+    f.pagweb_floristeria,
+    f.telefono_floristeria,
+    f.email_floristeria,
+    p.nombre_pais, 
+    f.url_imagen,
+    fc.nombre_comun
+ORDER BY 
+    CASE 
+        WHEN AVG(d.promedio) IS NOT NULL THEN 0 
+        ELSE 1 
+    END,
+    ROUND(AVG(d.promedio), 2) DESC,
+    fc.nombre_comun ASC]]>
+	</queryString>
+	<field name="nombre_floristeria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_floristeria"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_floristeria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="pagweb_floristeria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pagweb_floristeria"/>
+		<property name="com.jaspersoft.studio.field.label" value="pagweb_floristeria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="telefono_floristeria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="telefono_floristeria"/>
+		<property name="com.jaspersoft.studio.field.label" value="telefono_floristeria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="email_floristeria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email_floristeria"/>
+		<property name="com.jaspersoft.studio.field.label" value="email_floristeria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="nombre_pais" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_pais"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_pais"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paises"/>
+	</field>
+	<field name="url_imagen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="url_imagen"/>
+		<property name="com.jaspersoft.studio.field.label" value="url_imagen"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="nombre_flor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_flor"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_flor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="valoracion_promedio" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="valoracion_promedio"/>
+		<property name="com.jaspersoft.studio.field.label" value="valoracion_promedio"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="128" splitType="Stretch">
+			<textField>
+				<reportElement x="140" y="0" width="240" height="30" uuid="48a6ce7a-9f4e-4475-968b-39ae002a108e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_floristeria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="30" width="240" height="30" uuid="db43e2c4-8d49-4b52-8a5c-974199a1722e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="60" width="240" height="30" uuid="71ba9ca0-87dd-49f2-8cea-490320b86032"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email_floristeria}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="-3" y="0" width="132" height="100" uuid="bfb262b1-236b-437f-96e9-9bc7a2ac84d4">
+					<printWhenExpression><![CDATA[$F{url_imagen} != null && !$F{url_imagen}.isEmpty() ? $F{url_imagen} : "default.WEBP"]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{url_imagen} != null && !$F{url_imagen}.isEmpty() && new java.net.URL($F{url_imagen}).openConnection().getResponseCode() == 200
+? $F{url_imagen} 
+: "default_img.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-3" y="3" width="573" height="37" forecolor="#387C49" backcolor="#AFD095" uuid="f92ed2b5-f2d1-49ec-9075-b14b2ad4bd02"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="140" y="2" width="290" height="38" forecolor="#1E6A39" uuid="8ee842d9-5568-4322-99a6-a9d22cb7390e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATÁLOGO DE FLORES]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="61" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="10" width="400" height="37" forecolor="#CF578A" backcolor="#F1CFDE" uuid="7069faef-7dbf-4e1e-b4af-41e099a8f718"/>
+			</rectangle>
+			<textField hyperlinkType="ReportExecution" hyperlinkTarget="Blank">
+				<reportElement x="-20" y="10" width="180" height="38" uuid="a7794c18-9f6e-4b4e-989a-bad6ff0941c4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4218caed-0fd7-4ddb-b03f-fe11fa3c7d15"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_flor}]]></textFieldExpression>
+				<hyperlinkParameter name="_report">
+					<hyperlinkParameterExpression><![CDATA["/ReportesFlores2024/Subreporte2CatalogoFloristeria"]]></hyperlinkParameterExpression>
+				</hyperlinkParameter>
+				<hyperlinkParameter name="nombre_floristeria">
+					<hyperlinkParameterExpression><![CDATA[$F{nombre_floristeria}]]></hyperlinkParameterExpression>
+				</hyperlinkParameter>
+				<hyperlinkParameter name="nombre_flor">
+					<hyperlinkParameterExpression><![CDATA[$F{nombre_flor}]]></hyperlinkParameterExpression>
+				</hyperlinkParameter>
+			</textField>
+			<textField>
+				<reportElement x="250" y="10" width="70" height="37" forecolor="#B64C79" uuid="49a95083-cb45-4c57-9e71-751eea7f723b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8da4f055-8345-4b3d-9fca-202be5ef5ed7"/>
+					<printWhenExpression><![CDATA[$F{valoracion_promedio} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valoracion_promedio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="10" width="70" height="37" uuid="206ce58b-3b66-4615-9b82-a56e8e7f254c">
+					<printWhenExpression><![CDATA[$F{valoracion_promedio} != null  && $F{valoracion_promedio}.compareTo(new java.math.BigDecimal("1")) > 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<text><![CDATA[Estrellas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="10" width="70" height="37" uuid="48367c37-4a57-43ed-9939-618ad8a0e8ec">
+					<printWhenExpression><![CDATA[$F{valoracion_promedio} != null && $F{valoracion_promedio}.compareTo(new java.math.BigDecimal("1")) == 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<text><![CDATA[Estrella]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="572" height="34" uuid="0c238074-c1b0-4d73-a844-801d6bf602f7"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

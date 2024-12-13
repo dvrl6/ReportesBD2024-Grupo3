@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 9.0.0.final using JasperReports Library version 6.10.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Subreporte2CatalogoProductor" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="4c239769-0c91-4235-bc2f-e8f7c199331b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PRUEBA_CATALOGO_PROD_1"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ReportesFlores2024/Subreporte2CatalogoProductor_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ReportesFlores2024/Subreporte2CatalogoProductor"/>
+	<parameter name="nombre_productor" class="java.lang.String"/>
+	<parameter name="nombre_flor" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    p.nombre_prod AS nombre_productor,
+    p.pagweb_prod AS pagina_web,
+    p.url_imagen AS logo_imagen,
+    pa.nombre_pais AS nombre_pais,
+    UPPER(f.nombre_comun) AS nombre_comun,
+    f.genero_especie AS tipo_flor_corte,
+    f.etimologia AS etimologia,
+    f.tem_conservacion AS temperatura,
+    f.colores AS colores,
+    cp.nombre_propio AS nombre_propio
+FROM 
+    catalogos_productores cp
+JOIN 
+    flores_corte f ON cp.id_flor = f.id_flor_corte
+JOIN 
+    productores p ON cp.id_productor = p.id_prod
+JOIN 
+    paises pa ON p.id_pais = pa.id_pais
+WHERE 
+    cp.nombre_propio = $P{nombre_flor} 
+    AND  LOWER(p.nombre_prod) = LOWER($P{nombre_productor}) 
+ORDER BY 
+    f.nombre_comun]]>
+	</queryString>
+	<field name="nombre_productor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_productor"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_productor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productores"/>
+	</field>
+	<field name="pagina_web" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pagina_web"/>
+		<property name="com.jaspersoft.studio.field.label" value="pagina_web"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productores"/>
+	</field>
+	<field name="logo_imagen" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="logo_imagen"/>
+		<property name="com.jaspersoft.studio.field.label" value="logo_imagen"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="productores"/>
+	</field>
+	<field name="nombre_pais" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_pais"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_pais"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paises"/>
+	</field>
+	<field name="nombre_comun" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_comun"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_comun"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="tipo_flor_corte" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_flor_corte"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_flor_corte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="etimologia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="etimologia"/>
+		<property name="com.jaspersoft.studio.field.label" value="etimologia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="temperatura" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura"/>
+		<property name="com.jaspersoft.studio.field.label" value="temperatura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="colores" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="colores"/>
+		<property name="com.jaspersoft.studio.field.label" value="colores"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="nombre_propio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_propio"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_propio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catalogos_productores"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="140" height="90" uuid="90567cd9-19b2-42ab-a75a-4b21f34a00b2"/>
+				<imageExpression><![CDATA[$F{logo_imagen}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="140" y="0" width="410" height="30" uuid="b6849220-7de1-44ef-8b73-2fda862b4ada"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_productor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="30" width="410" height="30" uuid="e7791681-05ce-4971-b8a2-465c4f0f043b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="60" width="410" height="30" uuid="47766c7b-902c-45ca-9100-36075c0d148f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pagina_web}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-3" y="3" width="573" height="37" forecolor="#387C49" backcolor="#AFD095" uuid="4e19cb9b-6079-4ffb-88d8-1db9e685c8f8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="100" y="3" width="180" height="37" forecolor="#1E6A39" uuid="69653d21-e9b9-4c95-8439-0bf4fcfc5288"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATÁLOGO DE ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="290" y="3" width="170" height="37" forecolor="#1E6A39" uuid="ed497743-b538-4bab-8463-0686d280b780"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_comun}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="13" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="249" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="10" width="300" height="37" forecolor="#CF578A" backcolor="#F1CFDE" uuid="66f2b224-e05f-471b-96a9-fa64739b9584"/>
+			</rectangle>
+			<textField>
+				<reportElement x="20" y="13" width="210" height="30" forecolor="#B54C79" uuid="9dfa0357-0589-40cf-8584-585d9115878d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bffe4577-d537-4339-9b85-2a9c422c6d29"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_propio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="60" width="360" height="20" uuid="0f05fa09-da25-4117-9b69-fe419bfc1ff8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c9de8fa4-3e38-40d5-b62d-759110f1f0df"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_flor_corte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="106" width="360" height="30" uuid="9a091a9f-102a-4425-b40b-368a860aa8a3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d0a722e7-c9c5-4901-8558-7c67e24ce57a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{etimologia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="160" width="360" height="30" uuid="a6ddb2f2-ddd6-4110-b495-639e5e261c1c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf11423d-23f2-415a-b887-1050d992aea2"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{colores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="207" width="100" height="30" uuid="79d5dc40-2ffa-4f9d-9476-191ef3bdbbe6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="49e3338f-7407-4961-9f42-119e83d1271a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{temperatura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="160" width="100" height="30" uuid="a86113a0-1cbe-4e3b-a307-ad0f60f26aab">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf11423d-23f2-415a-b887-1050d992aea2"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="28d800ce-bf04-4268-9a15-9bfdd831d0d8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c9de8fa4-3e38-40d5-b62d-759110f1f0df"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Flor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="106" width="100" height="30" uuid="40d48c47-9308-48fa-a9db-2a4ac6c6a4b9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d0a722e7-c9c5-4901-8558-7c67e24ce57a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Etimología]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="207" width="100" height="42" uuid="10d8bfe2-67c4-4465-ae4c-491d20f0edad">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="49e3338f-7407-4961-9f42-119e83d1271a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temperatura de Conservación]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

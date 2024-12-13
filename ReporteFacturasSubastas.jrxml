@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 9.0.0.final using JasperReports Library version 6.10.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteFacturasSubastas" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e42cbd8-a6e4-4417-8177-2c5c5c94076f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PRUEBA_CATALOGO_PROD_1"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/ReportesFlores2024/ReporteFacturasSubastas_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/ReportesFlores2024/ReporteFacturasSubastas"/>
+	<parameter name="nombre_floristeria" class="java.lang.String"/>
+	<parameter name="fecha_inicio" class="java.util.Date"/>
+	<parameter name="fecha_fin" class="java.util.Date"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    l.id_lote AS id_lote,
+    l.cantidad AS cantidad_lote,
+    l.precio_final AS precio_lote,
+    cp.nombre_propio AS nombre_flor_productor,
+    fc.nombre_comun AS tipo_flor_corte,
+    fs.num_factura AS num_factura,
+    fs.fecha_emision AS fecha_factura,
+    fs.total AS total_factura,
+    f.nombre_floristeria AS nombre_cliente,
+    f.telefono_floristeria AS telefono_cliente,
+    f.email_floristeria AS email_cliente,
+    s.url_imagen AS logo_subastador,
+    s.nombre_sub AS nombre_subastador,
+    pa_sub.nombre_pais AS pais_subastador,
+    pa_flo.nombre_pais AS pais_cliente
+FROM 
+    lotes_flor l
+JOIN 
+    facturas_subastas fs ON l.num_factura = fs.num_factura
+JOIN 
+    floristerias f ON fs.id_floristeria = f.id_floristeria
+JOIN 
+    subastadoras s ON fs.id_sub = s.id_sub
+JOIN 
+    catalogos_productores cp ON l.id_prod = cp.id_productor AND l.vbn = cp.vbn
+JOIN 
+    flores_corte fc ON cp.id_flor = fc.id_flor_corte
+JOIN 
+    paises pa_sub ON s.id_pais = pa_sub.id_pais 
+JOIN 
+    paises pa_flo ON f.id_pais = pa_flo.id_pais
+WHERE 
+    LOWER(f.nombre_floristeria) =  LOWER($P{nombre_floristeria} )
+    AND fs.fecha_emision BETWEEN  $P{fecha_inicio}  AND  $P{fecha_fin} 
+ORDER BY 
+    l.id_lote]]>
+	</queryString>
+	<field name="id_lote" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_lote"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_lote"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lotes_flor"/>
+	</field>
+	<field name="cantidad_lote" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="cantidad_lote"/>
+		<property name="com.jaspersoft.studio.field.label" value="cantidad_lote"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lotes_flor"/>
+	</field>
+	<field name="precio_lote" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="precio_lote"/>
+		<property name="com.jaspersoft.studio.field.label" value="precio_lote"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lotes_flor"/>
+	</field>
+	<field name="nombre_flor_productor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_flor_productor"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_flor_productor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="catalogos_productores"/>
+	</field>
+	<field name="tipo_flor_corte" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_flor_corte"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_flor_corte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="flores_corte"/>
+	</field>
+	<field name="num_factura" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="num_factura"/>
+		<property name="com.jaspersoft.studio.field.label" value="num_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="facturas_subastas"/>
+	</field>
+	<field name="fecha_factura" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_factura"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="facturas_subastas"/>
+	</field>
+	<field name="total_factura" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total_factura"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_factura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="facturas_subastas"/>
+	</field>
+	<field name="nombre_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="telefono_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="telefono_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="telefono_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="email_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="email_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="floristerias"/>
+	</field>
+	<field name="logo_subastador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="logo_subastador"/>
+		<property name="com.jaspersoft.studio.field.label" value="logo_subastador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="subastadoras"/>
+	</field>
+	<field name="nombre_subastador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_subastador"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_subastador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="subastadoras"/>
+	</field>
+	<field name="pais_subastador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pais_subastador"/>
+		<property name="com.jaspersoft.studio.field.label" value="pais_subastador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paises"/>
+	</field>
+	<field name="pais_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pais_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="pais_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paises"/>
+	</field>
+	<group name="Group1" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{num_factura}]]></groupExpression>
+		<groupHeader>
+			<band height="89">
+				<rectangle>
+					<reportElement x="0" y="56" width="570" height="32" backcolor="#D6D6D6" uuid="c9b5f49f-641d-4d23-bd80-3aba82f1bebe"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="56" width="70" height="32" uuid="84959ffc-3a13-443d-8e7a-d30fd4884d4c">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86d6fe07-4c1f-4b96-a711-11a9d13473b8"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Microsoft YaHei UI" size="12"/>
+					</textElement>
+					<text><![CDATA[ID LOTE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="70" y="56" width="140" height="32" uuid="d59624b4-b9c1-428c-b803-81b256bd69cc">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fbd9c31-28ab-40c0-ae15-c60411ee403f"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Microsoft YaHei UI" size="12"/>
+					</textElement>
+					<text><![CDATA[NOMBRE ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="210" y="56" width="140" height="32" uuid="2475eb0e-2e3b-4cd0-8085-74e2227a4571">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3735b817-43bf-4167-870d-dad25a9068d8"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Microsoft YaHei UI" size="12"/>
+					</textElement>
+					<text><![CDATA[TIPO DE FLOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="350" y="56" width="100" height="32" uuid="c0b7c235-c08b-44f6-8ade-1693d80e2a2a">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7e4d584-fdf8-4411-9581-7ad98c27e950"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Microsoft YaHei UI" size="12"/>
+					</textElement>
+					<text><![CDATA[CANTIDAD DE FLORES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="450" y="56" width="120" height="32" uuid="85bb962b-6ed2-4b12-a1d3-bc8a0490ae92">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="20419c66-54ba-4197-8027-db5ebc9efdc6"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Microsoft YaHei UI" size="12"/>
+					</textElement>
+					<text><![CDATA[PRECIO]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="0" y="10" width="570" height="30" forecolor="#CF578A" backcolor="#F1CFDE" uuid="65ba9004-89fc-4367-b726-c3d1f87d33d3"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="10" width="570" height="30" uuid="8700c07e-d10c-4833-bd82-2a78bdd662e5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Microsoft YaHei UI" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DETALLES DE LA FACTURA]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="13"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="111" splitType="Stretch">
+			<textField>
+				<reportElement x="120" y="30" width="180" height="24" uuid="f2aed21f-faa7-405d-8092-afd1bdddd1a0"/>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_subastador}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="100" height="100" uuid="e5095fa7-4991-4dee-bfe8-7473518e03d5"/>
+				<imageExpression><![CDATA[$F{logo_subastador}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="120" y="55" width="180" height="20" uuid="12424902-09a7-4fe6-a9ff-fb08f8493b18"/>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pais_subastador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="450" y="10" width="120" height="20" uuid="ec1d8b03-ccbb-4463-843a-85b24e7a48c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<text><![CDATA[Factura no°]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="450" y="30" width="120" height="18" forecolor="#FFFFFF" backcolor="#D6D6D6" uuid="f2a950d7-18fb-4a90-93d5-4377101d8659"/>
+			</rectangle>
+			<textField>
+				<reportElement x="450" y="30" width="120" height="18" backcolor="#EBEBEB" uuid="a09665e7-651c-4f71-8efd-eb4e3c4731e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num_factura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="450" y="50" width="120" height="20" uuid="80d9c7ab-7e3e-4d90-8843-006bdaa1962d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emisión]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="450" y="70" width="120" height="20" uuid="d874e274-86a9-411e-a4db-2e182c598003"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_factura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="120" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="40" width="150" height="20" uuid="0ee57d89-ba1f-410b-a813-ce1fc7ce81e8"/>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_cliente}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="10" width="180" height="19" forecolor="#387C49" backcolor="#AFD095" uuid="34a62e04-d1c0-4596-9953-f6188cbe41f9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="10" width="180" height="19" uuid="8da171b5-8cf0-4ca2-be71-504fd02382d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="60" width="150" height="20" uuid="aad269bd-ab34-4849-a643-084974853bd9"/>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pais_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="80" width="150" height="20" uuid="6e1e6229-d3d5-4234-9dc1-d6fdae781d2a"/>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="100" width="150" height="20" uuid="e6c247e9-616f-4a00-9f3d-81b2835e403b"/>
+				<textElement>
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email_cliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="70" height="40" uuid="72cdefa3-6990-4342-aa2e-e8be3e5dd8ee">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86d6fe07-4c1f-4b96-a711-11a9d13473b8"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="140" height="40" uuid="4b6b6a11-54ad-4ce3-b32d-225e7e21ab45">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fbd9c31-28ab-40c0-ae15-c60411ee403f"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_flor_productor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="140" height="40" uuid="10635394-19ae-4051-a0c7-f6db64f02874">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3735b817-43bf-4167-870d-dad25a9068d8"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_flor_corte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="100" height="40" uuid="eaaead2f-4b62-42d1-b89d-44c20a044169">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b7e4d584-fdf8-4411-9581-7ad98c27e950"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad_lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="120" height="40" uuid="84424bf3-77f0-46e5-8997-336647dd160d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="20419c66-54ba-4197-8027-db5ebc9efdc6"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio_lote}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="550" y="11" width="20" height="19" uuid="48e6eae7-82b4-4093-990b-b37d142d555c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<text><![CDATA[€]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="89" splitType="Stretch">
+			<rectangle>
+				<reportElement x="310" y="7" width="130" height="19" forecolor="#387C49" backcolor="#AFD095" uuid="803ca3d5-d6e3-4e4c-a723-01eeed1f1456"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="270" y="37" width="170" height="19" forecolor="#387C49" backcolor="#AFD095" uuid="634eb23f-f937-4889-a0fe-7942295eef4e"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="310" y="70" width="130" height="19" forecolor="#387C49" backcolor="#AFD095" uuid="8838ae65-8a27-407d-909a-b44bb65246b2"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="452" y="7" width="110" height="19" uuid="a73a853a-8ae5-4e34-9fa3-fe41661551d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_factura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="310" y="7" width="119" height="19" uuid="36dc9da1-8850-4130-8dff-6465eccbd2d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SUBTOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="37" width="158" height="19" uuid="bc3aff7d-3b1b-4988-b873-bbff8cd7f542"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[RECARGO DE ENVIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="70" width="118" height="19" uuid="fbf5c027-0107-4919-b26b-33d24fab7639"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="550" y="7" width="20" height="19" uuid="cc796a96-fef7-43d7-9c75-7f0ba67e7f8a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Microsoft YaHei UI" size="12"/>
+				</textElement>
+				<text><![CDATA[€]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="15" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
